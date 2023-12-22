@@ -57,12 +57,13 @@ bot.on("message", async (msg) => {
 
 app.post( '/web-data',  async (req, res) => {
   const {queryId, items, totalPrice} = req.body;
+  console.log(`fuck me: ${req.body}`)
   try {
     await bot.answerWebAppQuery(queryId, {
       type: 'article',
       id: queryId,
       title: 'Выбранные вещи',
-      input_message_content:{ message_text: 'Вы выбрали' + items }
+      input_message_content:{ message_text: 'Вы выбрали ' + items.map((item)=>item.title).join(', ') }
     })
     return res.status(200).json({});
   } catch (e) {
@@ -71,5 +72,5 @@ app.post( '/web-data',  async (req, res) => {
 })
 
 const PORT = 3001;
-
+console.log('Ima started');
 app.listen(PORT, () => console.log('server started on PORT' + PORT))
